@@ -59,8 +59,18 @@ src/
 ## Results
 The hybrid CFAR-Kalman approach improves detection stability and reduces false alarms compared to traditional CFAR methods.
 
+### CFAR Detection Output
+![CFAR Output](results/cfar_output.png)
+
+### CFAR + Kalman Tracking
+![Kalman Output](results/kalman_output.png)
 ---
 
+
+## Highlights
+- Robust object detection using CFAR variants
+- Enhanced tracking using Kalman and UKF
+- Reduced false alarm rate in noisy radar environments
 ## Future Work
 - Integration with real-time radar data
 - Deep learning-based target classification
