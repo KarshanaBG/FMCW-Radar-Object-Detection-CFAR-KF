@@ -1,0 +1,20 @@
+# MATLAB files
+*.asv
+*.m~
+*.mex*
+*.mlappinstall
+*.mltbx
+
+# Simulink
+*.slxc
+*.autosave
+
+# Code generation
+codegen/
+
+# Workspace
+*.mat
+
+# OS files
+.DS_Store
+Thumbs.db
