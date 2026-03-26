@@ -42,6 +42,7 @@ The aim is to improve detection accuracy in noisy environments and provide relia
 ---
 
 ## Project Structure
+```bash
 src/
 ├── ac_cfar.m
 ├── cacfar.m
@@ -51,6 +52,7 @@ src/
 ├── cfar_particle_filter.m
 ├── cfar_unscented_kalman.m
 └── rscfar.m
+```
 
 ---
 
