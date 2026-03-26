@@ -1,6 +1,6 @@
 clc; clear; close all;
 
-%% 1️⃣ Load .mat File (Radar IQ Data)
+%% Load .mat File (Radar IQ Data)
 matFilePath = 'D:\ACVs\College\Final year Project\radar_data.mat';  
 loadedData = load(matFilePath);
 
@@ -12,21 +12,21 @@ end
 
 disp(['IQ_data Size: ', mat2str(size(IQ_data))]);  
 
-%% 2️⃣ Define Radar Parameters
+%%  Define Radar Parameters
 Fs = 4e6;  % Sampling rate (Hz)
 fc = 77e9; % Radar operating frequency (Hz)
 c = 3e8;   % Speed of light (m/s)
 numChirps = size(IQ_data, 2);      % 32 Chirps
 numADCSamples = size(IQ_data, 3);  % 256 ADC Samples
 
-%% 3️⃣ Compute Range Profile (FFT Along ADC Samples)
+%% Compute Range Profile (FFT Along ADC Samples)
 rangeFFT = fft(IQ_data, [], 3);  
 rangeProfile = abs(squeeze(rangeFFT(1,1,:)));  % Take 1st chirp (assuming stationary object)
 
-%% 4️⃣ Compute Range Axis (Distance Estimation)
+%% Compute Range Axis (Distance Estimation)
 rangeBins = (0:numADCSamples-1) * (c / (2 * Fs));  % Convert ADC bins to meters
 
-%% 5️⃣ Apply CFAR for Object Detection
+%%️⃣ Apply CFAR for Object Detection
 cfarDetector = phased.CFARDetector( ...
     'NumTrainingCells', 10, ...    % Number of training cells
     'NumGuardCells', 2, ...        % Number of guard cells
@@ -38,7 +38,7 @@ cfarMask = cfarDetector(rangeProfilePower, 1:numADCSamples);
 
 detectedRanges = rangeBins(cfarMask == 1); % Get detected object positions
 
-%% 6️⃣ Initialize Kalman Filter for Object Tracking
+%% Initialize Kalman Filter for Object Tracking
 numDetections = length(detectedRanges);
 trackedPositions = zeros(numDetections, 1); % Store filtered positions
 
@@ -57,7 +57,7 @@ else
     x = [0; 0];  % Default position if no detections
 end
 
-%% 7️⃣ Apply Kalman Filter for Each Detected Object
+%% Apply Kalman Filter for Each Detected Object
 for i = 1:numDetections
     % Predict Step
     x = A * x; 
@@ -72,7 +72,7 @@ for i = 1:numDetections
     trackedPositions(i) = x(1);
 end
 
-%% 8️⃣ Plot CFAR Detections and Kalman-Filtered Output
+%% Plot CFAR Detections and Kalman-Filtered Output
 figure;
 plot(rangeBins, 10*log10(rangeProfile), 'b', 'LineWidth', 2); hold on;
 scatter(detectedRanges, 10*log10(rangeProfile(cfarMask == 1)), 'ro', 'filled'); % CFAR Detections
@@ -83,4 +83,4 @@ ylabel('Amplitude (dB)');
 legend('Range Profile', 'CFAR Detections', 'Kalman Filtered Track');
 grid on;
 
-disp('✅ CFAR Detection and Kalman Filtering Completed!');
+disp('CFAR Detection and Kalman Filtering Completed!');
