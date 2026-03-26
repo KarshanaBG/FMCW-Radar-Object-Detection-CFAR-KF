@@ -59,11 +59,6 @@ src/
 ## Results
 The hybrid CFAR-Kalman approach improves detection stability and reduces false alarms compared to traditional CFAR methods.
 
-### CFAR Detection Output
-![CFAR Output](results/cfar_output.png)
-
-### CFAR + Kalman Tracking
-![Kalman Output](results/kalman_output.png)
 ---
 
 
