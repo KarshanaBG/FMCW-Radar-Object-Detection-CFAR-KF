@@ -1,6 +1,6 @@
 clc; clear; close all;
 
-%% 1️⃣ Load .mat File (Radar IQ Data)
+%% Load .mat File (Radar IQ Data)
 matFilePath = 'D:\ACVs\College\Final year Project\radar_data.mat';  
 loadedData = load(matFilePath);
 
@@ -12,7 +12,7 @@ end
 
 disp(['IQ_data Size: ', mat2str(size(IQ_data))]);  
 
-%% 2️⃣ Define Radar Parameters
+%% Define Radar Parameters
 Fs = 4e6;  % Sampling rate (Hz)
 fc = 77e9; % Radar operating frequency (Hz)
 c = 3e8;   % Speed of light (m/s)
@@ -20,14 +20,14 @@ lambda = c / fc;  % Wavelength
 numChirps = size(IQ_data, 2);      % 32 Chirps
 numADCSamples = size(IQ_data, 3);  % 256 ADC Samples
 
-%% 3️⃣ Compute Range Profile (FFT Along ADC Samples)
+%% Compute Range Profile (FFT Along ADC Samples)
 rangeFFT = fft(IQ_data, [], 3);  
 rangeProfile = abs(squeeze(rangeFFT(1,1,:)));  % Take 1st chirp for analysis
 
-%% 4️⃣ Compute Range Axis (Distance Estimation)
+%% Compute Range Axis (Distance Estimation)
 rangeBins = (0:numADCSamples-1) * (c / (2 * Fs));  % Convert ADC bins to meters
 
-%% 5️⃣ CAGO-CFAR Detection
+%% CAGO-CFAR Detection
 % CAGO-CFAR Parameters
 numTrainingCells = 10;  % Number of training cells
 numGuardCells = 2;      % Number of guard cells
@@ -54,17 +54,17 @@ end
 % Extract detected object positions
 detectedRanges = rangeBins(cfarMask == 1); 
 
-%% 6️⃣ Compute Doppler Spectrum (Range-Doppler Map)
+%% Compute Doppler Spectrum (Range-Doppler Map)
 dopplerFFT = fftshift(fft(IQ_data, [], 2), 2);
 dopplerSpectrum = abs(squeeze(dopplerFFT(1, :, :))); 
 
 % Compute Doppler Axis (Velocity Estimation)
 dopplerBins = linspace(-Fs/2, Fs/2, numChirps) * (lambda / 2); % Doppler shift to velocity
 
-%% 7️⃣ Plot Both Graphs as Subplots
+%% Plot Both Graphs as Subplots
 figure;
 
-% 🔵 Subplot 1: Range Profile with CAGO-CFAR Detections
+%  Subplot 1: Range Profile with CAGO-CFAR Detections
 subplot(1,1,1);
 plot(rangeBins, 10*log10(rangeProfile), 'b', 'LineWidth', 2); hold on;
 scatter(rangeBins(cfarMask == 1), 10*log10(rangeProfile(cfarMask == 1)), 'ro', 'filled'); % Mark detections
@@ -75,4 +75,4 @@ legend('Range Profile', 'Detected Objects');
 grid on;
 
 
-disp('✅ CAGO-CFAR Object Detection with Subplot Output Completed!');
+disp('CAGO-CFAR Object Detection with Subplot Output Completed!');
