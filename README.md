@@ -2,7 +2,12 @@
 ![Status](https://img.shields.io/badge/Status-Completed-brightgreen)
 ![Domain](https://img.shields.io/badge/Domain-Radar%20Signal%20Processing-blue)
 # FMCW Radar Object Detection using CFAR and CFAR-Kalman Filter
-FMCW Radar-based object detection using CFAR and CFAR-Kalman Filter hybrid model for improved target tracking and noise reduction.
+> A MATLAB-based radar signal processing project focused on robust object detection and tracking using CFAR and Kalman filtering techniques.
+
+## Why This Project Matters
+Radar-based object detection is widely used in automotive systems, defense, and surveillance.  
+This project demonstrates how advanced filtering techniques improve detection accuracy and reduce false alarms in noisy environments.
+
 ## Overview
 This project focuses on object detection in FMCW radar data using various CFAR (Constant False Alarm Rate) techniques and enhanced tracking using Kalman Filter-based methods.
 
